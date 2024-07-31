@@ -1,0 +1,111 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+body,html  {
+    font-family: 'outfit';
+    background-color: aqua;
+}
+
+.contact-container {
+    background-image: url(images/banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    animation: change 10% infinite ease-in-out;
+}
+
+
+.contact-left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+}
+
+
+.contact-left-title h3 {
+    font-style: italic;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+    color: #a363aa;
+    font-size: 38px;
+    margin-bottom: 6px;
+    animation: type 6s steps(50, end);
+}
+.contact-left-title h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    color: chocolate;
+}
+
+.contact-left-title hr {
+    border: none;
+    width: 120px;
+    height: 10px;
+    background-color: #a363aa;
+    border-radius: 15px;
+    margin-bottom: 20px;
+
+}
+
+.contact-inputs {
+    font: inherit;
+    font-size: 15px;
+    width: 400px;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-weight: 500;
+    color: #666;
+    border-radius: 50px;
+}
+
+.contact-left textarea {
+    height: 150px;
+    padding-top: 15px;
+    border-radius: 20px;
+}
+.contact-inputs:focus {
+border: 2px solid #ff994f;
+}
+.contact-inputs::placeholder {
+    color: #fadd86;
+}
+
+.contact-left button {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    font-size: 16px;
+    color: #fff;
+    gap: 15px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(270deg, #ff994f,#fadd86);
+    cursor: pointer;
+}
+
+.contact-left button img {
+    height: 15px;
+}
+.contact-right img {
+    width: 500px;
+}
+@media (max-width :800px) {
+    .contact-inputs {
+        width: 80vw;
+    }
+    .contact-right {
+        display: none;
+    }
+}
+
