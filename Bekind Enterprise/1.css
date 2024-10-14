@@ -1,0 +1,64 @@
+/* Full page background with smooth color transitions */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: backgroundChange 10s infinite;
+}
+
+/* Typewriter effect */
+.typewriter {
+    font-size: 4rem;
+    color: white;
+    border-right: 2px solid;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(20, end), blink 1s step-end infinite;
+}
+
+/* Typing effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 17ch;
+    }
+}
+
+/* Blinking cursor */
+@keyframes blink {
+    from {
+        border-color: white;
+    }
+    to {
+        border-color: transparent;
+    }
+}
+
+/* Background color animation */
+@keyframes backgroundChange {
+    0% {
+        background-color: #FF5733; /* Red-Orange */
+    }
+    25% {
+        background-color: #33FF57; /* Green */
+    }
+    50% {
+        background-color: #3357FF; /* Blue */
+    }
+    75% {
+        background-color: #FF33A6; /* Pink */
+    }
+    100% {
+        background-color: #FF5733; /* Back to Red-Orange */
+    }
+}

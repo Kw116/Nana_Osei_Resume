@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send Voicemail</title>
+    <link rel="stylesheet" href="record.css" />
+  </head>
+  <body>
+    <h1>Send a Voicemail</h1>
+    <b></b>
+
+    <!-- Recording Controls -->
+    <button id="startBtn">Start Recording</button>
+    <button id="stopBtn" disabled>Stop Recording</button>
+    <p id="status">Press "Start Recording" to begin...</p>
+
+    <!-- Audio Playback -->
+    <audio id="audioPlayback" controls></audio>
+    <br />
+    <a id="downloadLink" href="#" download="voicemail.wav" style="display: none"
+      >Download Voicemail</a
+    >
+    <br />
+
+    <!-- Web3Forms Submission Form -->
+    <form
+      id="voicemailForm"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      enctype="multipart/form-data"
+      style="display: none"
+    >
+      <!-- Web3Forms Access Key -->
+      <input type="hidden" name="access_key" value="your-access-key-here" />
+
+      <!-- Email Subject -->
+      <input type="hidden" name="subject" value="New Voicemail" />
+
+      <!-- Redirect After Submission -->
+      <input
+        type="hidden"
+        name="redirect"
+        value="https://your-website.com/thank-you-page"
+      />
+
+      <!-- User Email -->
+      <input type="email" name="email" placeholder="Your Email" required />
+
+      <!-- Hidden File Input for Voicemail -->
+      <input
+        type="file"
+        id="audioFile"
+        name="audioFile"
+        style="display: none"
+      />
+
+      <!-- Submit Button -->
+      <button type="submit">Send Voicemail</button>
+    </form>
+
+    <script>
+      let mediaRecorder;
+      let audioChunks = [];
+
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const status = document.getElementById("status");
+      const audioPlayback = document.getElementById("audioPlayback");
+      const downloadLink = document.getElementById("downloadLink");
+      const voicemailForm = document.getElementById("voicemailForm");
+      const audioFileInput = document.getElementById("audioFile");
+
+      // Start Recording
+      startBtn.addEventListener("click", async () => {
+        audioChunks = [];
+        let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+        status.textContent = "Recording...";
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+          let audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          let audioUrl = URL.createObjectURL(audioBlob);
+          audioPlayback.src = audioUrl;
+          status.textContent =
+            "Recording stopped. Listen to your voicemail below.";
+
+          // Enable the download link
+          downloadLink.href = audioUrl;
+          downloadLink.style.display = "block";
+
+          // Prepare the audio file for Web3Forms submission
+          const file = new File([audioBlob], "voicemail.wav", {
+            type: "audio/wav",
+          });
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          audioFileInput.files = dataTransfer.files;
+
+          // Show the voicemail form
+          voicemailForm.style.display = "block";
+        });
+      });
+
+      // Stop Recording
+      stopBtn.addEventListener("click", () => {
+        mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      });
+    </script>
+  </body>
+</html>
